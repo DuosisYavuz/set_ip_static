@@ -1,1 +1,59 @@
+---
+- name: Set Linux Host IP Type to Static
+  hosts: all
+  become: true  # Run tasks with sudo
+
+  tasks:
+    - name: Check if netplan directory exists
+      stat:
+        path: /etc/netplan  # Adjust the directory path as needed
+      register: netplan_directory
+      
+    - name: Create netplan directory if it doesn't exist
+      file:
+        path: /etc/netplan
+        state: directory
+      when: not netplan_directory.stat.exists
+      
+    - name: Check if netplan directory is non-empty
+      shell: ls -A /etc/netplan  # List non-dot files in the directory
+      register: netplan_files
+      ignore_errors: yes  # Ignore error if the directory is empty or doesn't exist
+
+    - name: Get the name of the first file
+      set_fact:
+        first_netplan_file: "{{ netplan_files.stdout | splitlines | first }}"
+      when: netplan_files.stdout
+
+    - name: Create netplan configuration
+      copy:
+        content: "network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens192:
+      dhcp4: true
+      dhcp4-overrides:
+      routes:
+        - to: 192.168.1.103/24  # Specify the subnet range you want
+          via: 0.0.0.0       # Default route
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]"
+        dest: "/etc/netplan/01-netcfg.yaml"  # Use the name of the first file
+      when: not netplan_files.stdout
+      notify:
+        - Apply Netplan Config
+      
+  - name: Update netplan configuration
+      lineinfile:
+        path: "/etc/netplan/{{ first_netplan_file }}"  # Use the name of the first file
+        regexp: '^(\s*dhcp4:\s*yes)'  # Replace with the appropriate line to find
+        line: '    dhcp4: no'
+      when: netplan_files.stdout
+      notify:
+        - Apply Netplan Config
+
+  handlers:
+    - name: Apply Netplan Config
+      command: netplan apply
 
