@@ -5,6 +5,7 @@
 
   tasks:
     - name: Run 'ip r' command
+      become: true  # Run the command with sudo
       shell: ip r
       register: ip_route_result
 
