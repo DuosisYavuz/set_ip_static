@@ -1,0 +1,7 @@
+---
+- name: Check if IP is static
+  hosts: all
+
+  tasks:
+    - name: Get
+
