@@ -2,7 +2,7 @@
 - name: Set Linux Host IP Type to Static
   hosts: all
   become: true  # Run tasks with sudo
-  ars:
+  vars:
     ansible_become_pass: "{{ansible_password}}"
 
   tasks:
