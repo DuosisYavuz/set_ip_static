@@ -6,6 +6,8 @@
   tasks:
     - name: Run 'ip r' command
       become: true  # Run the command with sudo
+      vars:
+        ansible_become_pass: "{{CentOSAWX_sudo_pass}}"
       shell: ip r
       register: ip_route_result
 
