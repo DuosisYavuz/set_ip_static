@@ -27,18 +27,7 @@
 
     - name: Create netplan configuration
       copy:
-        content: "network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    ens192:
-      dhcp4: true
-      dhcp4-overrides:
-      routes:
-        - to: 192.168.1.103/24  # Specify the subnet range you want
-          via: 0.0.0.0       # Default route
-      nameservers:
-        addresses: [8.8.8.8, 8.8.4.4]"
+        content: "{{ lookup('file', 'netplan_config.yaml') }}"  # Use lookup to read content from file
         dest: "/etc/netplan/01-netcfg.yaml"  # Use the name of the first file
       when: not netplan_files.stdout
       notify:
