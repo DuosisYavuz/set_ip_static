@@ -1,5 +1,5 @@
 ---
-- name: Set Linux Host IP Type to Static
+- name: Set Debian Host IP Type to Static
   hosts: all
   become: true  # Run tasks with sudo
   vars:
