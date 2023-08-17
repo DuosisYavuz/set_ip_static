@@ -1,5 +1,5 @@
 ---
-- name: Check IP Address Type
+- name: Get OS Family of each Host
   hosts: all
 
   tasks:
