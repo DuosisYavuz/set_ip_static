@@ -4,8 +4,9 @@
 
   tasks:
     - name: Define OS Family Variable
-      set_fact:
-        host_os_family: "{{ ansible_os_family }}"
+      ansible.builtin.set_stats:
+        data:
+          host_os_family: ansible_os_family
         
     - name: Display variable value using debug module -- DEBUG
       debug:
