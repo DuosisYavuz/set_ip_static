@@ -1,12 +1,9 @@
 ---
 - name: Get IP Address Type
   hosts: all
-  gather_facts: no  # No need to gather facts for this task
+  #gather_facts: no  # No need to gather facts for this task
 
   tasks:
-    - name: debugg
-      debug:
-        msg: "{{hostvars[inventory_hostname]}} && {{hostvars}}"
     - name: Block I - Get IP address Type on Windows Hosts
       block:
         - name: Run 'ipconfig /all' Command on PowerShell
@@ -16,7 +13,7 @@
         - name: Determine IP Address Type
           set_fact:
             ip_type: "{{ 'static' if (ip_config_result.stdout_lines | map('regex_search', 'DHCP Enabled.*no$')) | list | first else 'dynamic' }}"
-      when: hostvars[inventory_hostname]['host_os_family'] == "Windows"
+      when: ansible_os_family == "Windows"
       
     - name: Get IP address Type on Linux Hosts
       block: 
@@ -31,10 +28,10 @@
           set_fact:
             ip_type: "{{ 'static' if 'dhcp' not in ip_route_result.stdout else 'dynamic' }}"
         
-      when: hostvars[inventory_hostname]['host_os_family'] ==  "Debian" or hostvars[inventory_hostname]['host_os_family'] ==  "RedHat" 
+      when: ansible_os_family ==  "Debian" or ansible_os_family ==  "RedHat" 
 
 
       
     - name: Display IP address type
       debug:
-        msg: "IP address type on {{ inventory_hostname }}({{ host_os_family }}): {{ ip_type }}"
+        msg: "IP address type on {{ inventory_hostname }}({{ ansible_os_family }}): {{ ip_type }}"
