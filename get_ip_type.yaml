@@ -4,6 +4,9 @@
   gather_facts: no  # No need to gather facts for this task
 
   tasks:
+    - name: debugg
+      debug:
+        msg: "{{hostvars[inventory_hostname]}} && {{hostvars}}"
     - name: Block I - Get IP address Type on Windows Hosts
       block:
         - name: Run 'ipconfig /all' Command on PowerShell
