@@ -12,7 +12,7 @@
 
         - name: Determine IP Address Type
           set_fact:
-            ip_type: "{{ 'static' if (ip_config_result.stdout_lines | map('regex_search', 'DHCP Enabled.*no$')) | list | first else 'dynamic' }}"
+            ip_type: "{{ 'static' if (ip_config_result.stdout_lines | map('regex_search', 'DHCP Enabled.*No$')) | list | first else 'dynamic' }}"
       when: ansible_os_family == "Windows"
       
     - name: Get IP address Type on Linux Hosts
