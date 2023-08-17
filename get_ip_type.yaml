@@ -7,26 +7,26 @@
     - name: Block I - Get IP address Type on Windows Hosts
       block:
         - name: Run 'ipconfig /all' Command on PowerShell
-        shell: ipconfig /all
-        register: ip_config_result
+          shell: ipconfig /all
+          register: ip_config_result
 
         - name: Determine IP Address Type
-        set_fact:
-          ip_type: "{{ 'static' if (ip_config_result.stdout_lines | map('regex_search', 'DHCP Enabled.*no$')) | list | first else 'dynamic' }}"
+          set_fact:
+            ip_type: "{{ 'static' if (ip_config_result.stdout_lines | map('regex_search', 'DHCP Enabled.*no$')) | list | first else 'dynamic' }}"
       when: host_os_family == "Windows"
       
     - name: Get IP address Type on Linux Hosts
       block: 
         - name: Run 'ip r' Command
-        become: true
-        vars:
-          ansible_become_pass: "{{ansible_password}}"
-        shell: ip r
-        register: ip_route_result
+          become: true
+          vars:
+            ansible_become_pass: "{{ansible_password}}"
+          shell: ip r
+          register: ip_route_result
         
         - name: Determine IP Address Type
-        set_fact:
-          ip_type: "{{ 'static' if 'dhcp' not in ip_route_result.stdout else 'dynamic' }}"
+          set_fact:
+            ip_type: "{{ 'static' if 'dhcp' not in ip_route_result.stdout else 'dynamic' }}"
         
       when: host_os_family ==  "Debian" or host_os_family ==  "RedHat" 
 
