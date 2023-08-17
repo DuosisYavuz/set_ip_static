@@ -12,7 +12,7 @@
 
         - name: Determine IP Address Type
           debug:
-            msg: {{ ip_config_result.stdout_lines }}
+            msg: "{{ ip_config_result.stdout_lines }}"
           set_fact:
             ip_type: "{{ 'static' if (ip_config_result.stdout_lines | map('regex_search', 'DHCP Enabled.*No')) | list | first else 'dynamic' }}"
       when: ansible_os_family == "Windows"
