@@ -10,9 +10,10 @@
           win_shell: ipconfig /all
           register: ip_config_result
 
+        - name: debugg
+            debug:
+              msg: "{{ ip_config_result.stdout_lines }}"
         - name: Determine IP Address Type
-          debug:
-            msg: "{{ ip_config_result.stdout_lines }}"
           set_fact:
             ip_type: "{{ 'static' if (ip_config_result.stdout_lines | map('regex_search', 'DHCP Enabled.*No')) | list | first else 'dynamic' }}"
       when: ansible_os_family == "Windows"
