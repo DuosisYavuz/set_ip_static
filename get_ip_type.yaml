@@ -9,10 +9,6 @@
         - name: Run 'ipconfig /all' Command on PowerShell
           win_shell: ipconfig /all
           register: ip_config_result
-
-        - name: debugg
-          debug:
-            msg: "{{ (ip_config_result.stdout_lines | map('regex_search', 'DHCP Enabled.*No')) | list }} && {{ (ip_config_result.stdout_lines | map('regex_search', 'DHCP Enabled.*No')) | list | first}}"
           
         - name: Determine IP Address Type
           set_fact:
