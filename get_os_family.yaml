@@ -1,1 +1,20 @@
-asd
+---
+- name: Check IP Address Type
+  hosts: all
+  gather_facts: no  # No need to gather facts for this task
+
+  tasks:
+    - name: Run 'ip r' command
+      become: true  # Run the command with sudo
+      vars:
+        ansible_become_pass: "{{ansible_password}}"
+      shell: ip r
+      register: ip_route_result
+
+    - name: Determine IP address type
+      set_fact:
+        ip_type: "{{ 'static' if 'dhcp' not in ip_route_result.stdout else 'dynamic' }}"
+      
+    - name: Display IP address type
+      debug:
+        msg: "IP address type on {{ inventory_hostname }}: {{ ip_type }}"
