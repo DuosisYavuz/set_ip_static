@@ -21,7 +21,7 @@
 
       
     - name: Block II - Set IP to Static on Debian Hosts
-    - block:
+      block:
       - name: Check if netplan directory exists
         stat:
           path: /etc/netplan  # Adjust the directory path as needed
