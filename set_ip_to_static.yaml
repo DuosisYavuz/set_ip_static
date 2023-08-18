@@ -58,8 +58,8 @@
             - Apply Netplan Config
             
         - name: Run as Admin
-          become: true
-            ansible_become_pass: "{{ sudo_pass }}"
+          ansible_become: true
+          ansible_become_pass: "{{ sudo_pass }}"
       
         - name: Update netplan configuration
           lineinfile:
