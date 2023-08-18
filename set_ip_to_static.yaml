@@ -56,10 +56,12 @@
           when: not netplan_files.stdout
           notify:
             - Apply Netplan Config
-      
-        - name: Update netplan configuration
+            
+        - name: Run as Admin
           become: true
           ansible_become_pass: "{{ sudo_pass }}"
+      
+        - name: Update netplan configuration
           lineinfile:
             path: "/etc/netplan/{{ first_netplan_file }}"  # Use the name of the first file
             regexp: '^(\s*dhcp4:\s*yes)'  # Replace with the appropriate line to find
