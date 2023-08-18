@@ -58,6 +58,7 @@
             - Apply Netplan Config
       
         - name: Update netplan configuration
+          become: true
           lineinfile:
             path: "/etc/netplan/{{ first_netplan_file }}"  # Use the name of the first file
             regexp: '^(\s*dhcp4:\s*yes)'  # Replace with the appropriate line to find
