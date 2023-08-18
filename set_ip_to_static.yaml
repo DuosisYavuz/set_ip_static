@@ -16,7 +16,7 @@
         
         - name: Remove Current IP Configuration
           win_shell: Remove-NetIPAddress -InterfaceAlias "Ethernet" 
-      when: ansible_os_family == "Windows"
+      when: ansible_os_family == "Windowss"
 
       
     - name: Block II - Set IP to Static on Debian Hosts
