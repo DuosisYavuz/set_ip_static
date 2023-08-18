@@ -39,7 +39,7 @@
 
         - name: Get the name of the first file
           set_fact:
-            first_netplan_file: "{{ netplan_files.stdout | splitlines | first }}"
+            first_netplan_file: "{{ netplan_files.stdout_lines | first }}"
           when: netplan_files.stdout
 
         - name: Get desired netplan configuration
