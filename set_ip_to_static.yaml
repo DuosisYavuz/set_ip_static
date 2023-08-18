@@ -1,11 +1,14 @@
 ---
 - name: Set Debian Host IP Type to Static
   hosts: all
-  become: true
   # gather_facts: no  # Disable fact gathering for this play
 
   tasks:
     - name: Block I - Set IP to Static on Windows Hosts
+      ansible_become: true
+      ansible_become_method: runas
+      ansible_become_user: Administrator
+      ansible_become_pass: Qwerasdf123
       block:
         - name: Get Current IP Configuration
           win_shell: Get-NetIPAddress
