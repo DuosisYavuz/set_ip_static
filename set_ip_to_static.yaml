@@ -45,11 +45,12 @@
 
       - name: Create netplan configuration
         vars_prompt:
-          - name: ip_address
-            prompt: "Enter the desired static IP address"
+          - name: net_config
+            prompt: "Enter the desired netplan configuration content."
             private: no  # Set to 'yes' if you want to hide the input
         copy:
-          content: "{{ lookup('file', 'netplan_config.yaml') }}"  # Use lookup to read content from file
+          #content: "{{ lookup('file', 'netplan_config.yaml') }}"  # Use lookup to read content from file
+          content: "{{ net_config }}"
           dest: "/etc/netplan/01-netcfg.yaml"  # Use the name of the first file
         when: not netplan_files.stdout
         notify:
