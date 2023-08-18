@@ -49,6 +49,7 @@
           when: not netplan_files.stdout
 
         - name: Create netplan configuration
+          become: true
           copy:
             content: "{{ net_config }}"
             dest: "/etc/netplan/01-netcfg.yaml"  # Use the name of the first file
