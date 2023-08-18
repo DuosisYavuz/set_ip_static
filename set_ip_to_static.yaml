@@ -56,10 +56,6 @@
           when: not netplan_files.stdout
           notify:
             - Apply Netplan Config
-            
-        - name: Run as Admin
-          ansible_become: true
-          ansible_become_pass: "{{ sudo_pass }}"
       
         - name: Update netplan configuration
           lineinfile:
