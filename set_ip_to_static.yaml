@@ -21,6 +21,7 @@
 
       
     - name: Block II - Set IP to Static on Debian Hosts
+    - block:
       - name: Check if netplan directory exists
         stat:
           path: /etc/netplan  # Adjust the directory path as needed
@@ -58,6 +59,7 @@
         when: netplan_files.stdout
         notify:
           - Apply Netplan Config
+      when: ansible_os_family == "Debian"
 
   handlers:
     - name: Apply Netplan Config
