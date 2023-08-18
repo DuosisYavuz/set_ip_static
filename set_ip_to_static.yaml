@@ -44,10 +44,9 @@
           when: netplan_files.stdout
 
         - name: Get desired netplan configuration
-          vars_prompt:
-            - name: net_config
-              prompt: "Enter the desired netplan configuration content."
-              private: no  # Set to 'yes' if you want to hide the input
+          pause:
+            prompt: "Please enter the desired netplan configuration: "
+          register: net_config
           when: not netplan_files.stdout
 
         - name: Create netplan configuration
