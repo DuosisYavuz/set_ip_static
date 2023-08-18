@@ -43,11 +43,14 @@
           first_netplan_file: "{{ netplan_files.stdout | splitlines | first }}"
         when: netplan_files.stdout
 
-      - name: Create netplan configuration
+      - name: Get desired netplan configuration
         vars_prompt:
           - name: net_config
             prompt: "Enter the desired netplan configuration content."
             private: no  # Set to 'yes' if you want to hide the input
+        when: not netplan_files.stdout
+
+      - name: Create netplan configuration
         copy:
           #content: "{{ lookup('file', 'netplan_config.yaml') }}"  # Use lookup to read content from file
           content: "{{ net_config }}"
