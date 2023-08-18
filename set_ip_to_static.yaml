@@ -7,16 +7,16 @@
   tasks:
     - name: Block I - Set IP to Static on Windows Hosts
       block:
-        -name: Get Current IP Configuration
-         win_shell: Get-NetIPAddress
-         register: ip_configurations
+        - name: Get Current IP Configuration
+          win_shell: Get-NetIPAddress
+          register: ip_configurations
 
-        -name: Find InterfaceAlias
-         set_fact:
+        - name: Find InterfaceAlias
+          set_fact:
            currentip_configurations.stdout_lines | map('regex_search', 'IPAddress.*192\.168\.1\..*') | select | list | first | regex_search('([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)')
         
-        -name: Remove Current IP Configuration
-         win_shell: Remove-NetIPAddress -InterfaceAlias "Ethernet" 
+        - name: Remove Current IP Configuration
+          win_shell: Remove-NetIPAddress -InterfaceAlias "Ethernet" 
       when: ansible_os_family == "Windows"
 
       
