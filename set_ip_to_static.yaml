@@ -50,6 +50,7 @@
 
         - name: Create netplan configuration
           become: true
+          become_ask_pass: true
           copy:
             content: "{{ net_config }}"
             dest: "/etc/netplan/01-netcfg.yaml"  # Use the name of the first file
@@ -59,6 +60,7 @@
       
         - name: Update netplan configuration
           become: true
+          become_ask_pass: true
           lineinfile:
             path: "/etc/netplan/{{ first_netplan_file }}"  # Use the name of the first file
             regexp: '^(\s*dhcp4:\s*yes)'  # Replace with the appropriate line to find
