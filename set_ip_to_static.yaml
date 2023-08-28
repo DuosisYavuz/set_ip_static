@@ -10,22 +10,9 @@
           win_shell: Get-NetAdapter | Format-List
           register: net_adapter
 
-            
-        - name: Display current IP configuration
-          debug:
-            msg: "{{ net_adapter.stdout_lines}}"
-            
-        - name: Display current IP configurationn
-          debug:
-            msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*')}}"
-            
-        - name: Display current IP configurationnn
-          debug:
-            msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select | list}}"
-            
         - name: Find InterfaceAlias
           set_fact:
-            interface_index: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select | list | first | regex_search('InterfaceIndex *: *([0-9]+)') }}"
+            interface_index: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select | list | first | regex_search('InterfaceIndex *: *(\d+)') }}"
        # - name: Remove Current IP Configuration
         #  win_shell: New-NetIPAddress -InterfaceIndex {{  }} -IPAddress {{ current_ip_address }} -PrefixLength 24 -DefaultGateway 192.168.1.1
             
