@@ -13,11 +13,11 @@
             
         - name: Display current IP configuration
           debug:
-            msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*')}}"
+            msg: "{{ net_adapter.stdout_lines}}"
             
-        - name: Display current IP configurationnn
+        - name: Display current IP configurationn
           debug:
-            msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select}}"
+            msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*')}}"
             
         - name: Display current IP configurationnn
           debug:
