@@ -13,6 +13,9 @@
         - name: Find InterfaceIndex
           set_fact:
             interface_index: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select | list | first | regex_search('(\\d+)') }}"
+
+        - name: Remove IP Configuration
+          win_shell: Remove an IP address -IPAddress {{ inventory_hostname }}
             
         - name: Set New IP Configuration
           win_shell: New-NetIPAddress -InterfaceIndex {{ interface_index }} -IPAddress {{ inventory_hostname }} -PrefixLength 24 -DefaultGateway 192.168.1.1
