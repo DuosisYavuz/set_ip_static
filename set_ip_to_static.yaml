@@ -16,7 +16,7 @@
             
         - name: Display current IP configuration
             debug:
-             msg: "Current IP configuration is {{ inventory_hostname }} ({{ ansible_os_family }}): {{ current_ip_configurations }}"
+              msg: "Current IP configuration is {{ inventory_hostname }} ({{ ansible_os_family }}): {{ current_ip_configurations }}"
 
       when: ansible_os_family == "Windows"
 
