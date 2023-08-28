@@ -12,12 +12,17 @@
 
         - name: Find InterfaceAlias
           set_fact:
-            current_ip_configurations: "{{ ip_configurations.stdout_lines | map('regex_search', 'IPAddress.*192\\.168\\.1\\..*') | select | list | first | regex_search('([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)') }}"
+            current_ip_configurations: "{{ ip_configurations.stdout_lines | map('regex_search', 'IPAddress.*192\\.168\\.1\\..*') | select | list }}"
+            #current_ip_configurations: "{{ ip_configurations.stdout_lines | map('regex_search', 'IPAddress.*192\\.168\\.1\\..*') | select | list | first | regex_search('([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)') }}"
             
         - name: Display current IP configuration
           debug:
             msg: "Current IP configuration is {{ inventory_hostname }} ({{ ansible_os_family }}): {{ current_ip_configurations }}"
 
+        - name: Remove Current IP Configuration
+          win_shell: Remove-NetIPAddress -InterfaceAlias "Ethernet" 
+
+          
       when: ansible_os_family == "Windows"
 
       
