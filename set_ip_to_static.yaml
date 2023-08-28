@@ -16,7 +16,7 @@
         
         - name: Remove Current IP Configuration
           win_shell: Remove-NetIPAddress -InterfaceAlias "Ethernet" 
-      when: ansible_os_family == "Windowss"
+      when: ansible_os_family == "Windows"
 
       
     - name: Block II - Set IP to Static on Debian Hosts
@@ -68,7 +68,7 @@
           when: netplan_files.stdout
           notify:
             - Apply Netplan Config
-      when: ansible_os_family == "Debian"
+      when: ansible_os_family == "Debisan"
 
   handlers:
     - name: Apply Netplan Config
