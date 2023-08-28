@@ -13,15 +13,15 @@
             
         - name: Display current IP configuration
           debug:
+            msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*')}}"
+            
+        - name: Display current IP configurationnn
+          debug:
+            msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select}}"
+            
+        - name: Display current IP configurationnn
+          debug:
             msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select | list}}"
-            
-        - name: Display current IP configurationnn
-          debug:
-            msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select | list | first}}"
-            
-        - name: Display current IP configurationnn
-          debug:
-            msg: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select | list | first | regex_search('InterfaceIndex *: *([0-9]+)') }}"
             
         - name: Find InterfaceAlias
           set_fact:
