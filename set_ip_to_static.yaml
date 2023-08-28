@@ -6,17 +6,21 @@
   tasks:
     - name: Block I - Set IP to Static on Windows Hosts
       block:
-        - name: Get Current IP Configuration
+        - name: Get Current Net Adapter
           win_shell: Get-NetAdapter | Format-List
           register: net_adapter
 
-        - name: Find InterfaceAlias
+        - name: Find InterfaceIndex
           set_fact:
             interface_index: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select | list | first | regex_search('(\\d+)') }}"
-       # - name: Remove Current IP Configuration
-        #  win_shell: New-NetIPAddress -InterfaceIndex {{  }} -IPAddress {{ current_ip_address }} -PrefixLength 24 -DefaultGateway 192.168.1.1
             
-        - name: Display current IP configurationnnn
+        - name: Set New IP Configuration
+          win_shell: New-NetIPAddress -InterfaceIndex {{ interface_index }} -IPAddress {{ inventory_hostname }} -PrefixLength 24 -DefaultGateway 192.168.1.1
+
+        - name: Set DNS Configuration
+          win_shell: Set-DnsClientServerAddress -InterfaceIndex {{ interface_index }} -ServerAddresses 8.8.8.8,8.8.8.4
+            
+        - name: Display current IP configuration
           debug:
             msg: "Current IP configuration is {{ inventory_hostname }} ({{ ansible_os_family }}): {{ interface_index }}"
 
