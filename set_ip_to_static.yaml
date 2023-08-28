@@ -12,7 +12,7 @@
 
         - name: Find InterfaceAlias
           set_fact:
-            currentip_configurations: "{{ ip_configurations.stdout_lines | map('regex_search', 'IPAddress.*192\\.168\\.1\\..*') | select | list | first | regex_search('([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)') }}"
+            current_ip_configurations: "{{ ip_configurations.stdout_lines | map('regex_search', 'IPAddress.*192\\.168\\.1\\..*') | select | list | first | regex_search('([0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)') }}"
         
 
       when: ansible_os_family == "Windows"
