@@ -35,9 +35,6 @@
       
     - name: Block II - Set IP to Static on Debian Hosts
       block:
-        - name: test
-          debug:
-            msg: "{{ ansible_become_pass }}"
         - name: Get network configuration
           shell: lshw -class network -json 
           register: network_data
@@ -50,7 +47,7 @@
 
         - name: Display network name
           debug:
-            msg: "{{ desired_value }}"
+            msg: "{{ network_data.stdout }}"
       when: ansible_os_family == "Debian"
       
   handlers:
