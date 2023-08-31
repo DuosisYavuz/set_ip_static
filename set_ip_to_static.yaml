@@ -29,7 +29,7 @@
           
         - name: Display current IP configuration
           debug:
-            msg: "Current IP configuration is {{ inventory_hostname }} ({{ ansible_os_family }}): {{ new_net_adapter }}"
+            msg: "Current IP configuration on {{ inventory_hostname }} ({{ ansible_os_family }}) is: {{ new_net_adapter }}"
 
           
       when: ansible_os_family == "Windows"
