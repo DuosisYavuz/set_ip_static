@@ -90,7 +90,8 @@
           lineinfile:
             path: "/etc/netplan/{{ first_netplan_file }}"  # Use the name of the first file
             regexp: '^(\s*dhcp4:\s*yes)'  # Replace with the appropriate line to find
-            line: '    dhcp4: no'
+            line: '      dhcp4: no'
+            backrefs: yes
           when: netplan_files.stdout
           notify:
             - Apply Netplan Config
