@@ -31,57 +31,22 @@
       when: ansible_os_family == "Windows"
 
       
-#    - name: Block II - Set IP to Static on Debian Hosts
-#      block:
-#        - name: Check if netplan directory exists
-#          stat:
-#            path: /etc/netplan  # Adjust the directory path as needed
-#          register: netplan_directory
-#      
-#        - name: Create netplan directory if it doesn't exist
-#          file:
-#            path: /etc/netplan
-#            state: directory
-#          when: not netplan_directory.stat.exists
-#      
-#        - name: Check if netplan directory is non-empty
-#          shell: ls -A /etc/netplan  # List non-dot files in the directory
-#          register: netplan_files
-#          ignore_errors: yes  # Ignore error if the directory is empty or doesn't exist
-#
-#        - name: Get the name of the first file
-#          set_fact:
-#            first_netplan_file: "{{ netplan_files.stdout_lines | first }}"
-#          when: netplan_files.stdout
-#
-#        - name: Get desired netplan configuration
-#          pause:
-#            prompt: "Please enter the desired netplan configuration: "
-#          register: net_config
-#          when: not netplan_files.stdout
-#
-#        - name: Create netplan configuration
-#          become: yes
-#          become_ask_pass: yes
-#          copy:
-#            content: "{{ net_config }}"
-#            dest: "/etc/netplan/01-netcfg.yaml"  # Use the name of the first file
-#          when: not netplan_files.stdout
-#          notify:
-#            - Apply Netplan Config
-#      
-#        - name: Update netplan configuration
-#          become: yes
-#          become_ask_pass: yes
-#          lineinfile:
-#            path: "/etc/netplan/{{ first_netplan_file }}"  # Use the name of the first file
-#            regexp: '^(\s*dhcp4:\s*yes)'  # Replace with the appropriate line to find
-#            line: '    dhcp4: no'
-#          when: netplan_files.stdout
-#          notify:
-#            - Apply Netplan Config
-#      when: ansible_os_family == "Debisan"
+    - name: Block II - Set IP to Static on Debian Hosts
+      block:
+        - name: Get network configuration
+          shell: sudo lshw -class network -json 
+          register: network_data
+      
+        - name: Get network name
+          set_fact: 
+            desired_value: "{{ network_data.stdout | from_json | json_query('logicalname') }}"
 
+        - name: Display network name
+          debug:
+            msg: "{{ desired_value }}
+      
+      when: ansible_os_family == "Debian"
+      
   handlers:
     - name: Apply Netplan Config
       command: netplan apply
