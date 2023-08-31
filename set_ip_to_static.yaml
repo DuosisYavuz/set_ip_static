@@ -35,8 +35,11 @@
       
     - name: Block II - Set IP to Static on Debian Hosts
       block:
+        - name: test
+          debug:
+            msg: "{{ ansible_become_pass }}"
         - name: Get network configuration
-          shell: sudo lshw -class network -json 
+          shell: lshw -class network -json 
           register: network_data
           become: true
           become_method: sudo
