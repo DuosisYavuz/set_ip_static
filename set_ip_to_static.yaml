@@ -95,7 +95,7 @@
           when: netplan_files.stdout
           notify:
             - Apply Netplan Config
-      when: ansible_os_family == "Debian"
+      when: ansible_os_family == "Debian" or ansible_os_family == "RedHat" 
       
   handlers:
     - name: Apply Netplan Config
