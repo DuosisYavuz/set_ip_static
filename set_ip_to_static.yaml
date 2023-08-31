@@ -49,7 +49,7 @@
           debug:
             msg: "{{ desired_value }}"
 
-         - name: Check if netplan directory exists
+        - name: Check if netplan directory exists
           stat:
             path: /etc/netplan  # Adjust the directory path as needed
           register: netplan_directory
