@@ -33,6 +33,10 @@
       
     - name: Block II - Set IP to Static on Debian Hosts
       block:
+        - name: test
+          debug:
+            msg: "{{ hostvars[inventory_hostname].sudo_pass }}"
+            
         - name: Get network configuration
           shell: sudo lshw -class network -json 
           register: network_data
