@@ -22,14 +22,10 @@
 
         - name: Set DNS Configuration
           win_shell: Set-DnsClientServerAddress -InterfaceIndex {{ interface_index }} -ServerAddresses 8.8.8.8,8.8.8.4
-
-        - name: Get New Net Adapter
-          win_shell: Get-NetAdapter | Format-List
-          register: new_net_adapter
           
-        - name: Display current IP configuration
+        - name: Report
           debug:
-            msg: "Current IP configuration on {{ inventory_hostname }} ({{ ansible_os_family }}) is: {{ new_net_adapter }}"
+            msg: "IP configuration is successfuly done!"
 
           
       when: ansible_os_family == "Windows"
