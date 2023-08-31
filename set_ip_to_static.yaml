@@ -99,4 +99,4 @@
       
   handlers:
     - name: Apply Netplan Config
-      command: netplan apply
+      command: sudo netplan apply
