@@ -35,19 +35,19 @@
       
     - name: Block II - Set IP to Static on Debian Hosts
       block:
-        - name: Get network configuration
-          shell: lshw -class network -json 
-          register: network_data
-          become: true
-          become_method: sudo
+        #- name: Get network configuration
+        #  shell: lshw -class network -json 
+        #  register: network_data
+        #  become: true
+        #  become_method: sudo
       
-        - name: Get network name
-          set_fact: 
-            desired_value: "{{ network_data.stdout | from_json | json_query('[0].logicalname') }}"
+        #- name: Get network name
+        #  set_fact: 
+        #    desired_value: "{{ network_data.stdout | from_json | json_query('[0].logicalname') }}"
 
-        - name: Display network name
-          debug:
-            msg: "{{ desired_value }}"
+        #- name: Display network name
+        #  debug:
+        #    msg: "{{ desired_value }}"
 
         - name: Check if netplan directory exists
           stat:
