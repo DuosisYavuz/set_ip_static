@@ -14,18 +14,22 @@
           set_fact:
             interface_index: "{{ net_adapter.stdout_lines | map('regex_search', 'InterfaceIndex.*') | select | list | first | regex_search('(\\d+)') }}"
 
-        - name: Remove IP Configuration
-          win_shell: Remove-NetIPAddress -IPAddress {{ inventory_hostname }} -Confirm:$False
+        #- name: Remove IP Configuration
+        #  win_shell: Remove-NetIPAddress -IPAddress {{ inventory_hostname }} -Confirm:$False
             
         - name: Set New IP Configuration
-          win_shell: New-NetIPAddress -InterfaceIndex {{ interface_index }} -IPAddress {{ inventory_hostname }} -PrefixLength 24 -DefaultGateway 192.168.1.1
+          win_shell: Set-NetIPAddress -InterfaceIndex {{ interface_index }} -IPAddress {{ inventory_hostname }} -PrefixLength 24
 
         - name: Set DNS Configuration
           win_shell: Set-DnsClientServerAddress -InterfaceIndex {{ interface_index }} -ServerAddresses 8.8.8.8,8.8.8.4
-            
+
+        - name: Get New Net Adapter
+          win_shell: Get-NetAdapter | Format-List
+          register: new_net_adapter
+          
         - name: Display current IP configuration
           debug:
-            msg: "Current IP configuration is {{ inventory_hostname }} ({{ ansible_os_family }}): {{ interface_index }}"
+            msg: "Current IP configuration is {{ inventory_hostname }} ({{ ansible_os_family }}): {{ new_net_adapter }}"
 
           
       when: ansible_os_family == "Windows"
