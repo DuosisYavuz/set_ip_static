@@ -3,7 +3,7 @@
   hosts: all
   # gather_facts: no  # Disable fact gathering for this play
   vars:
-    ansible_become_pass: "{{ hostvars[inventory_hostname].sudo_pass }}" # Replace with your actual sudo password
+    ansible_become_pass: "{{ hostvars[inventory_hostname].become_pass }}" # Replace with your actual sudo password
 
   tasks:
     - name: Block I - Set IP to Static on Windows Hosts
