@@ -43,8 +43,7 @@
 
         - name: Display network name
           debug:
-            msg: "{{ desired_value }}
-      
+            msg: "{{ desired_value }}"
       when: ansible_os_family == "Debian"
       
   handlers:
